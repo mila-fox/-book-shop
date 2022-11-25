@@ -1,0 +1,126 @@
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: url("../assets/images/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.clock {
+    width: 345px;
+    height: 329px;
+    animation: changeBg 1s infinite;
+    background-image: url("../assets/images/clock-black.png");
+}
+
+@keyframes changeBg {
+    0%,100%  { background-image: url("../assets/images/clock-white.png"); }
+    40% { background-image: url("../assets/images/clock-orange.png"); }
+    80% { background-image: url("../assets/images/clock-blue.png"); }
+}
+
+.btn-enter {
+    border: 3px solid #071ff5;
+    font-size: 48px;
+    font-weight: 900;
+    background-color: rgba(28,28,28,0);
+    color:#071ff5;
+    border-radius: 8px;
+    padding: 10px 40px;
+    margin-top: 120px;
+}
+
+.btn-enter:hover {
+    cursor: pointer;
+    color:coral;
+    border: 3px solid coral; ;
+}
+
+.catalog-card-book {
+    padding: 70px;
+    border: 2px solid #9b9b9b;
+    border-radius: 15px;
+}
+
+.catalog-li {
+    display: inline-block;
+}
+
+.catalog-card-book {
+  padding: 70px;
+}
+
+h2 {
+    color:black;
+    margin: 0;
+    padding-top: 90px;
+    font-size: 28px;
+}
+
+.catalog-card-author {
+    color:#9b9b9b;
+    margin: 0;
+    padding-bottom: 40px;
+    font-size: 22px;
+   }
+
+.catalog-card-show {
+    position: absolute;
+    border: 1px solid #071ff5;
+    font-size: 20px;
+    background-color: rgba(28,28,28,0);
+    color:#071ff5;
+    border-radius: 8px;
+    right: 5px;
+    bottom: 5px;
+    padding: 5px 20px;
+}
+
+.catalog-card-show:hover {
+    background-color: #071ff5;
+    color:white;
+}
+
+.catalog-card-img {
+    position: relative;
+}
+
+.catalog-card-src {
+    border-style: outset;
+    border-radius: 15px;
+}
+
+.catalog-card-price {
+    text-decoration-color: black;
+    font-size: 24px;
+    float: left;
+    color:black;
+    padding-top: px;
+  }
+
+.catalog-card-add {
+    float: right;
+    border-radius: 5px;
+    border: 2px solid #071ff5;
+    background-color: blue;
+    color: azure;
+    padding: 5px 20px;
+    font-size: 20px;
+}
+
+.catalog-card-add:hover {
+    cursor: pointer;
+    background-color:darkblue;
+    color: white;
+}
+
+.catalog-card-order {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
