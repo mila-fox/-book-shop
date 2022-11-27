@@ -1,103 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    user-select: none;
+}
+
+#bookshop-app,
+body {
+    position: relative;
+}
+
+#bookshop-app {
+    padding-top: 20px;
+}
+
 .logo {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100vh;
-    background: url("../assets/images/background.jpg");
+    background: url("./assets/images/background.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
 }
 
 .clock {
     width: 345px;
     height: 329px;
     animation: changeBg 1s infinite;
-    background-image: url("../assets/images/clock-black.png");
+    background-image: url("./assets/images/clock-black.png");
+    z-index: 1;
 }
 
 @keyframes changeBg {
-    0%,100%  { background-image: url("../assets/images/clock-white.png"); }
-    40% { background-image: url("../assets/images/clock-orange.png"); }
-    80% { background-image: url("../assets/images/clock-blue.png"); }
+    0%,100%  { background-image: url("./assets/images/clock-white.png"); }
+    40% { background-image: url("./assets/images/clock-orange.png"); }
+    80% { background-image: url("./assets/images/clock-blue.png"); }
 }
 
 .btn-enter {
-    border: 3px solid #071ff5;
-    font-size: 48px;
-    font-weight: 900;
+    border: 3px solid white;
+    font-size: 54px;
+    font-weight: 400px;
     background-color: rgba(28,28,28,0);
-    color:#071ff5;
+    color:white;
     border-radius: 8px;
     padding: 10px 40px;
-    margin-top: 120px;
+    margin-top: 80px;
+    z-index: 1;
 }
 
 .btn-enter:hover {
     cursor: pointer;
-    color:coral;
-    border: 3px solid coral; ;
+    color:#071ff5;
+    border: 3px solid #071ff5;
+}
+
+.list-books {
+    margin: 0 auto;
+    max-width: 1600px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 50px;
+
+}
+
+.catalog-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .catalog-card-book {
-    padding: 70px;
+    height: 100%;
+    padding: 40px;
     border: 2px solid #9b9b9b;
     border-radius: 15px;
 }
 
 .catalog-li {
     display: inline-block;
+    width: 450px;
 }
 
-.catalog-card-book {
-  padding: 70px;
+.all-title {
+    display: flex;
+    flex-direction: column;
 }
 
-h2 {
+.catalog-card-title {
     color:black;
     margin: 0;
-    padding-top: 90px;
-    font-size: 28px;
+    font-size: 22px;
+    margin-top: 15px;
+
 }
 
 .catalog-card-author {
     color:#9b9b9b;
-    margin: 0;
-    padding-bottom: 40px;
-    font-size: 22px;
-   }
+    margin-top:  5px;
+    font-size: 18px;
+}
 
 .catalog-card-show {
     position: absolute;
     border: 1px solid #071ff5;
     font-size: 20px;
-    background-color: rgba(28,28,28,0);
+    background-color:white;
     color:#071ff5;
-    border-radius: 8px;
-    right: 5px;
-    bottom: 5px;
+    border-radius: 5px;
+    right: 2px;
+    bottom: 1px;
     padding: 5px 20px;
 }
 
 .catalog-card-show:hover {
     background-color: #071ff5;
     color:white;
+    cursor: pointer;
 }
 
 .catalog-card-img {
     position: relative;
-}
-
-.catalog-card-src {
     border-style: outset;
     border-radius: 15px;
+    height: 398px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .catalog-card-price {
     text-decoration-color: black;
-    font-size: 24px;
+    font-size: 22px;
     float: left;
     color:black;
     padding-top: px;
@@ -120,7 +172,51 @@ h2 {
 }
 
 .catalog-card-order {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.main-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.show-more-modal {
+    position: absolute;
+    left: 50%;
+    transform: translate( -50%, -50%);
+    width: 50%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background:white;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.description-close {
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.book-description {
+    margin-top: 10px;;
+    font-size: 20px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight:  800px;
+}
