@@ -13,10 +13,7 @@
 #bookshop-app,
 body {
     position: relative;
-}
-
-#bookshop-app {
-    padding-top: 20px;
+    color:#9b9b9b
 }
 
 .logo {
@@ -34,6 +31,52 @@ body {
     background-size: cover;
 }
 
+.book-shop {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1600px;
+    padding: 30px;
+    background-color: whitesmoke;
+    display: flex;
+    z-index: 1;
+}
+
+.shopping-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    position: relative;
+    background: transparent;
+    cursor: pointer;
+}
+
+.shoppinimg {
+    background: url("./assets/icons/shopping-bag-svgrepo-com.svg");
+    width: 100%;
+    height: 100%;
+}
+
+.shopping-name {
+    font-size: 32px;
+    font-weight: 400;
+    color:#CD4500;
+    text-align: center;
+    width: 100%;
+}
+
+.orderquantity {
+    position: absolute;
+    font-size: 18px;
+    font-weight: 800;
+    color: #CD4500;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -25%);
+}
+
 .overlay {
     position: absolute;
     width: 100%;
@@ -45,7 +88,6 @@ body {
     width: 345px;
     height: 329px;
     animation: changeBg 1s infinite;
-    background-image: url("./assets/images/clock-black.png");
     z-index: 1;
 }
 
@@ -75,6 +117,7 @@ body {
 
 .list-books {
     margin: 0 auto;
+    padding-top: 100px;
     max-width: 1600px;
     display: flex;
     flex-wrap: wrap;
@@ -118,7 +161,6 @@ body {
 }
 
 .catalog-card-author {
-    color:#9b9b9b;
     margin-top:  5px;
     font-size: 18px;
 }
@@ -187,7 +229,7 @@ body {
     width: 100%;
     top: 0;
     background-color: rgba(0,0,0,0.5);
-    overflow: hidden;
+    z-index: 1;
 }
 
 .show-more-modal {
@@ -195,12 +237,13 @@ body {
     left: 50%;
     transform: translate( -50%, -50%);
     width: 50%;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     background:white;
     border: 1px solid black;
     border-radius: 5px;
+    z-index: 1;
 }
 
 .description-close {
@@ -212,14 +255,266 @@ body {
     justify-content: center;
     align-self: flex-end;
     cursor: pointer;
+    background: transparent;
 }
 
 .book-description {
-    margin-top: 10px;;
+    margin-top: 20px;;
     font-size: 20px;
 }
 
 .modal-title {
     font-size: 24px;
     font-weight:  800px;
+    color: black;
+}
+
+.order {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.order-close {
+    height: 50px;
+    width: 50px;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.order-card {
+    height: 100%;
+    padding: 20px;
+    border: 2px solid #9b9b9b;
+    border-radius: 15px;
+    background-color: white;
+    margin: 20px 60px 10px 60px;
+    display: flex;
+}
+
+.order-img {
+    border-style: outset;
+    border-radius: 15px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+.order-name {
+    font-size: 32px;
+    font-weight: 400;
+    color:#CD4500;
+    text-align: center;
+    margin: 20px 20px 0 20px;
+}
+
+.order-author {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.order-title {
+    color:black;
+    margin: 0;
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.order-price {
+    text-decoration-color: black;
+    font-size: 22px;
+    float: left;
+    color:black;
+    position: absolute;
+    bottom: 0;
+}
+
+.order-book {
+    display: flex;
+    flex: content;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 30px;
+    position: relative;;
+}
+
+.order-btn,
+.order-btn-cancel {
+    float: right;
+    border-radius: 5px;
+    border: 2px solid #071ff5;
+    background-color: blue;
+    color: azure;
+    padding: 5px 40px;
+    font-size: 20px;
+}
+
+.order-btn:not(:disabled) {
+    cursor: pointer;
+}
+
+.order-btn-cancel {
+    margin-right: 10px;
+}
+
+.order-total {
+    margin: 20px 60px 10px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order-total span {
+    font-size: 20px;
+    font-weight: 500;
+    color: #071ff5;
+}
+
+.form-begin {
+    padding-top: 40px;
+    padding-left: 20px;
+}
+
+.form-btn {
+    margin: 40px auto;
+    display: block;
+    border-radius: 5px;
+    border: 2px solid #071ff5;
+    background-color: blue;
+    color: azure;
+    padding: 5px 40px;
+    font-size: 20px;
+}
+
+.form-btn:disabled,
+.order-btn:disabled {
+    border: 2px solid black;
+    background-color: grey;
+}
+
+.error input {
+    border: 1px solid red;
+}
+
+.error::after {
+    content: 'The field is invalid';
+    display: block;
+    color: red;
+    font-size: 16px;
+}
+
+.form-btn:not(:disabled) {
+    cursor: pointer;
+}
+
+
+.field {
+    clear:both;
+    text-align:right;
+    padding-bottom: 20px;
+}
+
+.field label {
+    float:left;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+.form-begin {
+    float:left;
+    width: fit-content;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fieldset {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#form-date {
+    cursor:pointer;
+}
+
+.fieldset legend {
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+.fieldset label {
+    font-size: 18px;
+    color: black;
+    padding-bottom: 10x;
+}
+
+#contactChoice1,
+#contactChoice2 {
+    margin-left: 20px;
+    transform: scale(1.3);
+    opacity: 0.9;
+    cursor:pointer;
+}
+
+.fieldset input {
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 20px;
+    transform:scale(1.3);
+    opacity:0.9;
+    cursor:pointer;
+}
+
+.fieldset .payment-type,
+.fieldset .gift-pack {
+    margin-top: 20px;
+}
+
+.delivery {
+    display: none;
+    padding: 20px;
+    color: black;
+}
+
+.delivery.active {
+    display: block;
+}
+
+.delivery p {
+    display: block;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.main-page-link {
+    display: block;
+    text-decoration: none;
+    width: fit-content;
+
+    font-size: 20px;
+    text-align: center;
+    display: block;
+    border-radius: 5px;
+    border: 2px solid #071ff5;
+    background-color: #071ff5;
+    color: azure;
+    padding: 5px 40px;
+    font-size: 20px;
+}
+
+.main-page-link:hover,
+.form-btn:not(:disabled):hover,
+.order-btn:not(:disabled):hover,
+.order-btn-cancel:hover {
+    background-color: darkblue;
+}
+
+.main-page-link {
+    margin-top: 20px;
 }

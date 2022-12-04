@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order</title>
+    <link href="./assets/styles/normalize.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main id="bookshop-app">
+        <div class="form">
+            <h2 class="order-name">ORDER FORM</h2>
+            <a href="./index.html?logo=false" class="main-page-link">Return to Main page</a>
+            <form class="form-begin">
+                <div class="field">
+                    <label for="form-name">Name:</label>
+                    <input name="name" id="form-name" type="text" size="40" />
+                </div>
+                <div class="field">
+                    <label for="form-surname">Surname:</label>
+                    <input name="surname" id="form-surname" type="text" size="40" />
+                </div>
+                <div class="field">
+                    <label for="form-date">Delivery date:</label>
+                    <input name="delivery date" id="form-date" type="date" size="40" />
+                </div>
+                <div class="field">
+                    <label for="form-street">Street:</label>
+                    <input name="street" id="form-street" type="text" size="40" />
+                </div>
+                <div class="field">
+                    <label for="form-number">House number:</label>
+                    <input name="house-number" id="form-number" type="text" size="10" />
+                </div>
+                <div class="field">
+                    <label for="form-flat">Flat number:</label>
+                    <input name="flat-number" id="form-flat" type="text" size="10" />
+                </div>
+                <fieldset class="fieldset">
+                    <legend>Choose the payment type:</legend>
+                    <div class="payment-type">
+                      <input type="radio" id="contactChoice1" name="choose" value="cash" checked />
+                      <label for="contactChoice1">Cash</label>
+                      <input type="radio" id="contactChoice2" name="choose" value="card" />
+                      <label for="contactChoice2">Card</label>
+                </fieldset>
+                <fieldset class="fieldset gifts">
+                    <legend>Choose 2 gifts: (optional)</legend>
+                    <div class="gift-pack">
+                      <input type="checkbox" id="pack" name="interest" value="pack" />
+                      <label for="pack">Pack as a gift</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="postcard" name="interest" value="postcard" />
+                      <label for="postcard">Add postcard</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="discount" name="interest" value="discount 2%" />
+                        <label for="discount">Provide 2% discount to the next time</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" id="branded" name="interest" value="branded pen or pencil" />
+                        <label for="branded">Branded pen or pencil</label>
+                      </div>
+                </fieldset>
+                   <button class="form-btn" type="submit" disabled>Submit</button>
+            </form>
+        </div>
+        <div class="delivery">
+            <h2>The order created</h2>
+            <p class="address"></p>
+            <p class="customer"></p>
+            <p class="payment"></p>
+            <p class="gifts"></p>
+            <p class="description"></p>
+        </div>
+    </main>
+    <script src="order.js"></script>
+</body>
+</html>
