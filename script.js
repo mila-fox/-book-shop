@@ -94,6 +94,8 @@ function createCard({ id, author, imageLink, title, price, description }) {
     catalogCardBook.append(catalogCard);
 
     card.append(catalogCardBook);
+    card.draggable = true;
+    card.addEventListener('dragstart', handleDrag(id));
 
     return card;
 }
@@ -111,8 +113,22 @@ function clearMain() {
     }
 }
 
+function handleDragOver(e) {
+    addBook(+e.dataTransfer.getData('id'));
+}
+
+function allowDrag(e) {
+    e.preventDefault();
+}
+
+function handleDrag(id) {
+    return function(e) {
+        e.dataTransfer.setData("id", id);
+    }
+}
+
 function createHeader() {
-    const header = createElement('div', 'book-shop');
+    const header = createElement('div', 'book-shop');``
 
     const shoppingName = createElement('h2', 'shopping-name');
     shoppingName.innerHTML = 'BOOK CATALOG';
@@ -123,6 +139,8 @@ function createHeader() {
     shoppingCart.innerHTML = cart.size;
     shoppingButton.append(shoppingImg, shoppingCart);
     shoppingButton.addEventListener('click', showCart);
+    shoppingButton.addEventListener('drop', handleDragOver);
+    shoppingButton.addEventListener('dragover', allowDrag);
 
     header.append(shoppingName, shoppingButton);
     return header;
@@ -132,16 +150,20 @@ function updateStorage() {
     window.localStorage.setItem('cart', JSON.stringify(Array.from(cart.keys())));
 }
 
+function addBook(bookId) {
+    const isBookInCart = Array.from(cart.keys()).find(({ id }) => id === bookId);
+    if (!isBookInCart) {
+        const book = books.find(({ id }) => id === bookId);
+        cart.add(book);
+        const countElement = document.querySelector('.orderquantity');
+        countElement.innerHTML = cart.size;
+        updateStorage();
+    }
+}
+
 function addBookToCart(bookId) {
     return function() {
-        const isBookInCart = Array.from(cart.keys()).find(({ id }) => id === bookId);
-        if (!isBookInCart) {
-            const book = books.find(({ id }) => id === bookId);
-            cart.add(book);
-            const countElement = document.querySelector('.orderquantity');
-            countElement.innerHTML = cart.size;
-            updateStorage();
-        }
+        addBook(bookId);
     }
 }
 
