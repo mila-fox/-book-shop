@@ -1,6 +1,20 @@
 const main = document.getElementById('bookshop-app');
 let books = [];
-let cart = new Set();
+let cart = null;
+const queryString = window.location.search;
+
+const logoFromQuery = new URLSearchParams(queryString).get('logo');
+let logo;
+switch (logoFromQuery) {
+    case "true":
+        logo = true;
+        break;
+    case "false":
+    default:
+        logo = false;
+        break;
+}
+const startWithLogo = logoFromQuery === null ? true : logo;
 
 function createElement(tag, className) {
     const element = document.createElement(tag);
@@ -10,20 +24,32 @@ function createElement(tag, className) {
     return element;
 }
 
-function start() {
-    const logo = createElement('div', 'logo');
+function getCart() {
+    const cart = JSON.parse(window.localStorage.getItem('cart'));
+    return new Set(cart) || new Set();
+}
 
-    const overlay = createElement('div', 'overlay');
+async function start() {
+    cart = getCart();
+    books = await getBooks();
 
-    const clock = createElement("div", 'clock');
+    if (!startWithLogo) {
+        showBooks();
+    } else {
+        const logo = createElement('div', 'logo');
 
-    const btnStart = createElement("button", 'btn-enter');
-    btnStart.innerHTML = 'TIME &mdash; BOOK';
-    btnStart.addEventListener('click', showBooks);
+        const overlay = createElement('div', 'overlay');
 
-    logo.append(overlay, clock, btnStart);
+        const clock = createElement("div", 'clock');
 
-    main.append(logo);
+        const btnStart = createElement("button", 'btn-enter');
+        btnStart.innerHTML = 'TIME &mdash; BOOK';
+        btnStart.addEventListener('click', showBooks);
+
+        logo.append(overlay, clock, btnStart);
+
+        main.append(logo);
+    }
 }
 
 function getBooks() {
@@ -44,7 +70,7 @@ function createCard({ id, author, imageLink, title, price, description }) {
     btnShowMore.innerHTML = 'Show More';
     btnShowMore.addEventListener('click', showMore(id));
 
-    catalogCardImg.appendChild(btnShowMore);
+    catalogCardImg.append(btnShowMore);
 
     const allTitle = createElement('div', 'all-title');
     const elementTitle = createElement('span', 'catalog-card-title');
@@ -74,7 +100,7 @@ function createCard({ id, author, imageLink, title, price, description }) {
 
 function createCardList() {
     const listCards = createElement('ul', 'list-books');
-    const cards = books.map(book => createCard(book))
+    const cards = books.map(book => createCard(book));
     listCards.append(...cards);
     return listCards;
 }
@@ -94,7 +120,7 @@ function createHeader() {
     const shoppingButton = createElement('button', 'shopping-button');
     const shoppingImg = createElement('div', 'shoppinimg');
     const shoppingCart = createElement('span', 'orderquantity');
-    shoppingCart.innerHTML = '0';
+    shoppingCart.innerHTML = cart.size;
     shoppingButton.append(shoppingImg, shoppingCart);
     shoppingButton.addEventListener('click', showCart);
 
@@ -102,21 +128,30 @@ function createHeader() {
     return header;
 }
 
+function updateStorage() {
+    window.localStorage.setItem('cart', JSON.stringify(Array.from(cart.keys())));
+}
+
 function addBookToCart(bookId) {
     return function() {
-        const book = books.find(({ id }) => id === bookId);
-        cart.add(book);
-        const countElement = document.querySelector('.orderquantity');
-        countElement.innerHTML = cart.size;
+        const isBookInCart = Array.from(cart.keys()).find(({ id }) => id === bookId);
+        if (!isBookInCart) {
+            const book = books.find(({ id }) => id === bookId);
+            cart.add(book);
+            const countElement = document.querySelector('.orderquantity');
+            countElement.innerHTML = cart.size;
+            updateStorage();
+        }
     }
 }
 
-async function showBooks() {
+function showBooks() {
     clearMain();
-    books = await getBooks();
+    const content = new DocumentFragment();
     const header = createHeader();
     const cardlist = createCardList();
-    main.append(header, cardlist);
+    content.append(header, cardlist);
+    main.append(content);
 }
 
 function showMore(currentId) {
@@ -147,7 +182,10 @@ function showMore(currentId) {
         modal.append(btnClose, modalTitle, bookdescription);
         document.body.style.overflow = 'hidden';
 
-        main.append(overlay, modal);
+        const content = new DocumentFragment();
+        content.append(overlay, modal)
+
+        main.append(content);
     }
 }
 
@@ -184,10 +222,19 @@ function order() {
     const totalSpan = createElement('span');
     totalSpan.innerHTML = `Total: $${getOrderTotalSum()}`;
 
+    const wrapperBtn = createElement('div', 'order-wrapper-btn');
+
+    const cancelBtn = createElement('button', 'order-btn-cancel');
+    cancelBtn.innerHTML = 'Cancel';
+    cancelBtn.addEventListener('click', showBooks);
+
     const orderBtn = createElement('button', 'order-btn');
     orderBtn.innerHTML = 'Confirm';
-    orderTotal.append(totalSpan, orderBtn);
     orderBtn.addEventListener('click', showOrderForm);
+
+    wrapperBtn.append(orderBtn, cancelBtn);
+
+    orderTotal.append(totalSpan, wrapperBtn);
 
     order.append(orderName, createOrderList(), orderTotal);
     return order;
@@ -198,6 +245,11 @@ function deleteBookFromOrder(book) {
         cart.delete(book);
         e.currentTarget.closest('.order-card').remove();
         setOrderSumTotal();
+        updateStorage();
+        if (!cart.size) {
+            const btnShoeOrder = document.querySelector('.order-btn');
+            btnShoeOrder.disabled = true;
+        }
     }
 }
 
@@ -242,125 +294,12 @@ function showCart() {
     if (cart.size) {
         clearMain();
         main.append(order());
+        window.scrollTo(0, 0);
     }
 }
 
-function createField(id, name, labelName, type, size) {
-    const field = createElement('div', 'field');
-    const label = createElement('label');
-    label.for = id;
-    label.innerHTML = labelName;
-    const input = createElement('input');
-    input.name = name;
-    input.id = id;
-    input.type = type;
-    input.size = size;
-    field.append(label, input);
-    return field;
-}
-
-function createRadio(id, value) {
-    const element = createElement('input');
-    element.type = 'radio';
-    element.Id = id;
-    element.name = 'choose';
-    element.value = value;
-    return element
-}
-
-function createLabel(forElement, text) {
-    const label = createElement('label');
-    label.for = forElement;
-    label.innerHTML = text;
-    return label;
-}
-
-function createFieldGift(value, labelName) {
-    const element = createElement('div');
-    const input = createElement('input');
-    input.type = 'checkbox';
-    input.id = value;
-    input.name = 'interest';
-    input.value = value;
-    const label = createElement('label');
-    label.for = value;
-    label.innerHTML = labelName;
-    element.append(input, value);
-    return element;
-}
-
-function createCheckbox() {
-    const checkbox = createElement('fieldset', 'fieldset');
-
-    const checkboxLegend = createElement('legend');
-    checkboxLegend.innerHTML = 'Choose 2 gifts: (optional)';
-
-    const giftPack = createFieldGift('pack', 'Pack as a gift');
-    const addPostcard = createFieldGift('postcard', 'Add postcard');
-    const discount = createFieldGift('discount', 'Provide 2% discount to the next time');
-    const branded = createFieldGift('discount', 'Provide 2% discount to the next time');
-
-    checkbox.append(checkboxLegend, giftPack, addPostcard, discount, branded);
-    return checkbox;
-}
-
-function createFormButton() {
-    const formBtn = createElement('button', 'form-btn');
-    formBtn.type = 'submit';
-    formBtn.value = 'Complete';
-    formBtn.innerHTML = 'Submit';
-    return formBtn;
-}
-
-function createFieldsetPyament() {
-    const fieldset = createElement('fieldset', 'fieldset');
-
-    const title = createElement('legend');
-    title.innerHTML = 'Choose payment type:';
-
-    const paymentType = createElement('div', 'payment-type');
-
-    const cashInput = createRadio('contactChoice1', 'cash');
-    const cashInputLabel = createLabel('contactChoice1', 'Cash');
-
-    const cardInput = createRadio('contactChoice2', 'card');
-    const cardInputLabel = createLabel('contactChoice2', 'Card');
-
-    paymentType.append(cashInput, cashInputLabel, cardInput, cardInputLabel);
-    fieldset.append(title, paymentType);
-    return fieldset;
-}
-
-function createFormOrder() {
-    const form = createElement('div', 'form');
-
-    const orderName = createElement('h2', 'order-name');
-    orderName.innerHTML ='ORDER FORM';
-
-    const formBegin = createElement('form', 'form-begin');
-
-    const fieldName = createField('form-name', 'name', 'Name:', 'text', 40);
-    const fieldSurname = createField('form-surname', 'surname', 'Surname:', 'text', 40);
-    const fieldDeliveryDate = createField('form-date', 'delivery date', 'Delivery date:', 'date', 10);
-    const fieldStreet = createField('form-street', 'street', 'Street:', 'text', 40);
-    const fieldHouseNumber = createField('form-number', 'house-number', 'House number:', 'number', 40);
-    const fieldFlatNumber = createField('form-number', 'flat-number', 'Flat number:', 'number', 40);
-
-    const fieldset = createFieldsetPyament();
-
-    const checkbox = createCheckbox();
-
-    const formBtn = createFormButton();
-
-    formBegin.append(fieldName, fieldSurname, fieldDeliveryDate, fieldStreet, fieldHouseNumber, fieldFlatNumber, fieldset, checkbox, formBtn);
-
-    form.append(orderName,formBegin);
-    return form;
-}
-
 function showOrderForm() {
-    clearMain();
-    main.append(createFormOrder());
+    window.location.href = "./order.html";
 }
 
 start();

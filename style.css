@@ -116,7 +116,8 @@ body {
 }
 
 .list-books {
-    margin: 100px auto 0;
+    margin: 0 auto;
+    padding-top: 100px;
     max-width: 1600px;
     display: flex;
     flex-wrap: wrap;
@@ -228,7 +229,6 @@ body {
     width: 100%;
     top: 0;
     background-color: rgba(0,0,0,0.5);
-    overflow: hidden;
     z-index: 1;
 }
 
@@ -306,7 +306,7 @@ body {
     font-weight: 400;
     color:#CD4500;
     text-align: center;
-    margin: 20px;
+    margin: 20px 20px 0 20px;
 }
 
 .order-author {
@@ -339,7 +339,8 @@ body {
     position: relative;;
 }
 
-.order-btn {
+.order-btn,
+.order-btn-cancel {
     float: right;
     border-radius: 5px;
     border: 2px solid #071ff5;
@@ -347,7 +348,14 @@ body {
     color: azure;
     padding: 5px 40px;
     font-size: 20px;
+}
+
+.order-btn:not(:disabled) {
     cursor: pointer;
+}
+
+.order-btn-cancel {
+    margin-right: 10px;
 }
 
 .order-total {
@@ -378,6 +386,28 @@ body {
     padding: 5px 40px;
     font-size: 20px;
 }
+
+.form-btn:disabled,
+.order-btn:disabled {
+    border: 2px solid black;
+    background-color: grey;
+}
+
+.error input {
+    border: 1px solid red;
+}
+
+.error::after {
+    content: 'The field is invalid';
+    display: block;
+    color: red;
+    font-size: 16px;
+}
+
+.form-btn:not(:disabled) {
+    cursor: pointer;
+}
+
 
 .field {
     clear:both;
@@ -443,5 +473,48 @@ body {
 
 .fieldset .payment-type,
 .fieldset .gift-pack {
+    margin-top: 20px;
+}
+
+.delivery {
+    display: none;
+    padding: 20px;
+    color: black;
+}
+
+.delivery.active {
+    display: block;
+}
+
+.delivery p {
+    display: block;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.main-page-link {
+    display: block;
+    text-decoration: none;
+    width: fit-content;
+
+    font-size: 20px;
+    text-align: center;
+    display: block;
+    border-radius: 5px;
+    border: 2px solid #071ff5;
+    background-color: #071ff5;
+    color: azure;
+    padding: 5px 40px;
+    font-size: 20px;
+}
+
+.main-page-link:hover,
+.form-btn:not(:disabled):hover,
+.order-btn:not(:disabled):hover,
+.order-btn-cancel:hover {
+    background-color: darkblue;
+}
+
+.main-page-link {
     margin-top: 20px;
 }
